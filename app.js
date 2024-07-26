@@ -6,10 +6,10 @@ require("dotenv").config();
 const bookRoutes = require('./routes/Book');
 const userRoutes = require('./routes/User');
 
-// Création d'une application Express //
+
 const app = express();
 
-// Connexion à MongoDB //
+// Lien de connexion à MongoDB //
 mongoose.connect(process.env.DB_URI,
     { useNewUrlParser: true,
       useUnifiedTopology: true })
@@ -24,15 +24,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rend les données exploitables en JSON //
 app.use(express.json());
-
-// Middlewares qui définissent les routes //
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/books', bookRoutes);
 app.use('/api/auth', userRoutes);
-
-// Middleware pour les images //
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
-// Export de l'app pour le server //
+// Exportation // 
 module.exports = app;
+
